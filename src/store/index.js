@@ -4,8 +4,16 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
+  state: {
+    cityInfos: [],
+    favCities: [],
+    unit: "M",
+    shownUnit: "C",
+    moonPhase: ""
+  },
+  mutations: {
+    
+  },
   actions: {},
   modules: {}
 });
