@@ -2,12 +2,8 @@
   <div class="fav">
     <div class="container">
       <div class="row">
-        <div class="col-md-5 col-sm-6" v-for="(infos,index) in $store.state.favCities" :key="index">
-          <div class="card">
-            <p>({{infos.lat}} / {{infos.lon}})</p>
-            <h3>City Name: {{infos.city_name}}</h3>
-            <h3>Saved Temperatue: {{infos.temp}}*{{shownUnit}}</h3>
-          </div>
+        <div class="col-md-5 col-sm-6" v-for="(infos,index) in favCities" :key="index">
+          <h1></h1>
         </div>
       </div>
     </div>
@@ -15,7 +11,16 @@
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    favCities() {
+      return this.$store.getters.favCities;
+    },
+    savedCityInfos() {
+      return this.$store.getters.savedCityInfos;
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -25,17 +30,73 @@ export default {};
   background-attachment: fixed;
   min-height: 100vh;
   width: 100vw;
+  align-items: center;
+  justify-content: center;
   padding: 100px 0;
-}
-.card {
-  width: 600px;
-  margin: 10px;
 }
 .col-md-6 {
   padding: 0;
 }
+.container {
+  align-items: center;
+}
 .row {
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.favourited {
+  color: yellow;
+}
+.now,
+.d5,
+.d1,
+.h3h {
+  margin: 0 20px;
+}
+.title p {
+  font-size: 1.5rem;
+}
+.sections .col-3 {
+  min-width: 170px;
+  height: 100%;
+  border: 1px solid black;
+  text-align: center;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+}
+h3 {
+  font-weight: 600;
+}
+.card {
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0.7)
+  );
+  border: 2px solid black;
+  padding: 0 15px;
+}
+.title {
+  padding: 10px 0;
+  margin: 0 !important;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.title h2 {
+  font-weight: 600;
+}
+.fa-star:hover {
+  color: yellow;
+  cursor: pointer;
 }
 </style>

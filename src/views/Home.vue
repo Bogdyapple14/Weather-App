@@ -2,129 +2,55 @@
   <div class="homepage" @keypress.enter="fetchApi();">
     <div class="top">
       <input type="text" class="searchBar" v-model="cityName" />
-      <button @click="fetchApi(); fetchApi1();">Search</button>
+      <button @click="fetchApi();">Search</button>
     </div>
     <div class="buttons">
-      <button @click="unitCelsius(); fetchApi();">Celcius</button>
-      <button @click="unitKelvin(); fetchApi();">Kelvin</button>
-      <button @click="unitFarenheit(); fetchApi();">Farenheit</button>
+      <button @click="fetchApi('M');changeShownUnit(`C`)">Celcius</button>
+      <button @click="fetchApi('S');changeShownUnit(`K`)">Kelvin</button>
+      <button @click="fetchApi('I');changeShownUnit(`F`)">Farenheit</button>
     </div>
-
+    <card :searched="searched"></card>
     <div class="error" v-show="isError">
       <h2>Please enter a valid city</h2>
-    </div>
-    <div class="card" v-for="(info,index) in cityInfos" :key="index" :name="info.city_name">
-      <div class="row title">
-        <p>({{info.lat}} / {{info.lon}})</p>
-        <h2>{{ info.city_name }}</h2>
-        <button @click="addToFav" class="addToFav">
-          <i class="far fa-star"></i>
-        </button>
-      </div>
-      <div class="row sections">
-        <div class="col-3">
-          <div class="now">
-            <h3>Now</h3>
-            {{info.weather.icon}}
-            <h3>{{info.temp}}*{{$store.state.shownUnit}}</h3>
-            <p>Sunrise : {{info.sunrise_ts}}</p>
-          </div>
-        </div>
-        <div class="col-3">
-          <div class="h3h">
-            <h3>3H</h3>
-            {{info.weather.icon}}
-            <h3>{{info.temp}}*{{$store.state.shownUnit}}</h3>
-            <p>Sunrise : {{info.sunrise_ts}}</p>
-          </div>
-        </div>
-        <div class="col-3 1d">
-          <div class="d1">
-            <h3>1D</h3>
-            {{info.weather.icon}}
-            <h3>{{info.temp}}*{{$store.state.shownUnit}}</h3>
-            <p>Sunrise : {{info.sunrise_ts}}</p>
-          </div>
-        </div>
-        <div class="col-3">
-          <div class="d5">
-            <h3>5D</h3>
-            {{info.weather.icon}}
-            <h3>{{info.temp}}*{{$store.state.shownUnit}}</h3>
-            <p>Sunrise : {{info.sunrise_ts}}</p>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import card from "../components/card";
 export default {
   data() {
     return {
-      cityName: "",
-      cityInfos: [],
-      isError: false,
-      shownUnit: "C"
+      unit: "M",
+      searched: false
     };
   },
-  methods: {
-    fetchApi() {
-      axios
-        .get(
-          "https://api.weatherbit.io/v2.0/current?city=" +
-            this.city +
-            ",NC&key=8ce5a5e907914482be4ae7d4ea0c069f&units=" +
-            this.$store.state.unit
-        )
-        .then(response => {
-          this.cityInfos = [...response.data.data];
-          this.isError = false;
-        })
-        .catch(() => {
-          this.cityInfos = [];
-          this.isError = true;
-        });
-    },
-    fetchApi1() {
-      axios
-        .get(
-          "https://api.weatherbit.io/v2.0/current?city=" +
-            this.city +
-            ",NC&key=8ce5a5e907914482be4ae7d4ea0c069f&units=" +
-            this.$store.state.unit
-        )
-        .then(response => {
-          this.cityInfos = [...response.data.data];
-          this.isError = false;
-        })
-        .catch(() => {
-          this.cityInfos = [];
-          this.isError = true;
-        });
-    },
-    unitCelsius() {
-      this.$store.state.unit = "M";
-      this.$store.state.shownUnit = "C";
-    },
-    unitKelvin() {
-      this.$store.state.unit = "S";
-      this.$store.state.shownUnit = "K";
-    },
-    unitFarenheit() {
-      this.$store.state.unit = "I";
-      this.$store.state.shownUnit = "F";
-    },
-    addToFav() {
-      this.$store.state.favCities.push(...this.cityInfos);
-      alert("Added To Favourite");
-    }
+  components: {
+    card
   },
   computed: {
-    city() {
-      return this.cityName;
+    isError() {
+      return this.$store.getters.isError;
+    },
+    cityName: {
+      get() {
+        return this.$store.getters.cityName;
+      },
+      set(value) {
+        this.$store.commit("SET_CITYNAME", value);
+      }
+    },
+    shownUnit() {
+      return this.$store.getters.shownUnit;
+    }
+  },
+  methods: {
+    fetchApi(payload) {
+      this.$store.dispatch(`fetchApi`, payload);
+      this.searched = true
+    },
+    changeShownUnit(payload) {
+      this.$store.dispatch("setShownUnit", payload);
     }
   }
 };
@@ -158,12 +84,6 @@ export default {
     color: white;
   }
 }
-.addToFav {
-  background: none;
-  border: none;
-  outline: none;
-  user-select: none;
-}
 .homepage {
   min-height: 100vh;
   width: 100vw;
@@ -190,59 +110,5 @@ h2,
 p,
 h3 {
   margin: 0;
-}
-.favourited {
-  color: yellow;
-}
-.now,
-.d5,
-.d1,
-.h3h {
-  margin: 0 20px;
-}
-.title p {
-  font-size: 1.5rem;
-}
-.sections .col-3 {
-  min-width: 170px;
-  height: 100%;
-  border: 1px solid black;
-  text-align: center;
-  justify-content: space-between;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 15px;
-}
-h3 {
-  font-weight: 600;
-}
-.card {
-  font-weight: 600;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: linear-gradient(
-    rgba(255, 255, 255, 0.7),
-    rgba(255, 255, 255, 0.7)
-  );
-  border: 2px solid black;
-  padding: 0 15px;
-}
-.title {
-  padding: 10px 0;
-  margin: 0 !important;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-
-  h2 {
-    font-weight: 600;
-  }
-}
-.fa-star:hover {
-  color: yellow;
-  cursor: pointer;
 }
 </style>
