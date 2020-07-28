@@ -3,15 +3,15 @@
     <div class="col-3">
       <div class="now">
         <h3>{{cardColumn.time}}</h3>
-        <img :src="icons(weatherIcon)" alt />
-        <h3>{{temperature}}*{{shownUnit}}</h3>
-        <p>Sunrise : {{sunrise}}</p>
+        <img :src="icons(cardColumn.icon)" alt />
+        <h3>{{cardColumn.temperature}}*{{shownUnit}}</h3>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   props: ["cardColumn"],
   methods: {
@@ -19,25 +19,21 @@ export default {
       return `/icons/${iconSrc}.png`;
     }
   },
+  data() {
+    return {
+      test: [{ time: "Pateu" }, { time: "Carnati" }]
+    };
+  },
   computed: {
-    temperature() {
-      return this.$store.getters.temperature;
-    },
-    weatherIcon() {
-      return this.$store.getters.weatherIcon;
-    },
-    sunrise() {
-      return this.$store.getters.sunrise;
-    },
-    cityInfos() {
-      return this.$store.getters.cityInfos;
-    },
-    shownUnit() {
-      return this.$store.getters.shownUnit;
-    },
-    savedCityInfos() {
-      return this.$store.getters.savedCityInfos;
-    }
+    ...mapGetters([
+      "sunrise",
+      "temperature",
+      "weatherIcon",
+      "cityInfos",
+      "savedBoolean",
+      "favCities",
+      "shownUnit"
+    ])
   }
 };
 </script>

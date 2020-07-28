@@ -2,8 +2,8 @@
   <div class="fav">
     <div class="container">
       <div class="row">
-        <div class="col-md-5 col-sm-6" v-for="(infos,index) in favCities" :key="index">
-          <h1></h1>
+        <div v-for="(infos,index) in favCities" :key="index">
+          <card />
         </div>
       </div>
     </div>
@@ -11,14 +11,15 @@
 </template>
 
 <script>
+import card from '../components/card'
 export default {
   computed: {
     favCities() {
       return this.$store.getters.favCities;
     },
-    savedCityInfos() {
-      return this.$store.getters.savedCityInfos;
-    }
+  },
+  components:{
+    card
   }
 };
 </script>

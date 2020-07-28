@@ -1,15 +1,24 @@
 <template>
-  <div class="homepage" @keypress.enter="fetchApi();">
+  <div
+    class="homepage"
+    @keypress.enter="fetchApi('M'); fetchApi_3H('M');fetchApi_24H('M');fetchApi_120H('M')"
+  >
     <div class="top">
       <input type="text" class="searchBar" v-model="cityName" />
-      <button @click="fetchApi();">Search</button>
+      <button @click="fetchApi('M'); fetchApi_3H('M');fetchApi_24H('M');fetchApi_120H('M')">Search</button>
     </div>
     <div class="buttons">
-      <button @click="fetchApi('M');changeShownUnit(`C`)">Celcius</button>
-      <button @click="fetchApi('S');changeShownUnit(`K`)">Kelvin</button>
-      <button @click="fetchApi('I');changeShownUnit(`F`)">Farenheit</button>
+      <button
+        @click="fetchApi('M'); fetchApi_3H('M');fetchApi_24H('M');fetchApi_120H('M');changeShownUnit(`C`)"
+      >Celcius</button>
+      <button
+        @click="fetchApi('S'); fetchApi_3H('S');fetchApi_24H('S');fetchApi_120H('S');changeShownUnit(`K`)"
+      >Kelvin</button>
+      <button
+        @click="fetchApi('I'); fetchApi_3H('I');fetchApi_24H('I');fetchApi_120H('I');changeShownUnit(`F`)"
+      >Farenheit</button>
     </div>
-    <card :searched="searched"></card>
+    <card></card>
     <div class="error" v-show="isError">
       <h2>Please enter a valid city</h2>
     </div>
@@ -18,20 +27,18 @@
 
 <script>
 import card from "../components/card";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      unit: "M",
-      searched: false
+      unit: "M"
     };
   },
   components: {
     card
   },
   computed: {
-    isError() {
-      return this.$store.getters.isError;
-    },
+    ...mapGetters(["isError", "shownUnit"]),
     cityName: {
       get() {
         return this.$store.getters.cityName;
@@ -39,15 +46,20 @@ export default {
       set(value) {
         this.$store.commit("SET_CITYNAME", value);
       }
-    },
-    shownUnit() {
-      return this.$store.getters.shownUnit;
     }
   },
   methods: {
     fetchApi(payload) {
       this.$store.dispatch(`fetchApi`, payload);
-      this.searched = true
+    },
+    fetchApi_3H(payload) {
+      this.$store.dispatch(`fetchApi_3H`, payload);
+    },
+    fetchApi_24H(payload) {
+      this.$store.dispatch(`fetchApi_24H`, payload);
+    },
+    fetchApi_120H(payload) {
+      this.$store.dispatch(`fetchApi_120H`, payload);
     },
     changeShownUnit(payload) {
       this.$store.dispatch("setShownUnit", payload);

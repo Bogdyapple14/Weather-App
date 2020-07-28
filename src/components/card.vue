@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card" v-show="searched">
+    <div class="card" v-show="savedBoolean">
       <div class="row title">
         <p class="coords">({{cityInfos.lat}}) / ({{cityInfos.lon}})</p>
         <h2>{{ cityInfos.city_name }}</h2>
@@ -9,9 +9,8 @@
         </button>
       </div>
       <div class="cardColumnsSection">
-        <div class="cardColumn" v-for="(cardColumn,index) in cardColumn" :key="index">
-          <cardColumn :cardColumn="cardColumn"></cardColumn>
-        </div>
+        <cardColumn class="cardColumn" :cardColumn="cardColumn" v-for="(cardColumn,index) in cardColumnInfos" :key="index">
+        </cardColumn>
       </div>
     </div>
   </div>
@@ -19,17 +18,14 @@
 
 <script>
 import cardColumn from "./cardColumn";
+import { mapGetters } from "vuex";
 export default {
-  props: ["searched"],
-  data() {
-    return {
-      cardColumn: [
-        { time: "Now", temperature: "", icon: "", sunrise: "" },
-        { time: "3H", temperature: "", icon: "", sunrise: "" },
-        { time: "24H", temperature: "", icon: "", sunrise: "" },
-        { time: "120H", temperature: "", icon: "", sunrise: "" }
-      ]
-    };
+  computed: {
+    ...mapGetters([
+      "cityInfos",
+      "savedBoolean",
+      "cardColumnInfos"
+      ])
   },
   components: {
     cardColumn
@@ -38,28 +34,6 @@ export default {
     addToFav() {
       alert("Added To Favourites");
       this.$store.dispatch("addToFav");
-      this.$store.dispatch("SET_SAVEDCITYINFOS");
-    }
-  },
-  computed: {
-    sunrise() {
-      return this.$store.getters.sunrise;
-    },
-    temperature() {
-      return this.$store.getters.temperature;
-    },
-    weatherIcon() {
-      return this.$store.getters.weatherIcon;
-    },
-
-    cityInfos() {
-      return this.$store.getters.cityInfos;
-    },
-    savedBoolean() {
-      return this.$store.getters.savedBoolean;
-    },
-    favCities() {
-      return this.$store.getters.favCities;
     }
   }
 };
