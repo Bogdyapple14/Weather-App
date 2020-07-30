@@ -2,9 +2,9 @@
   <div>
     <div class="col-3">
       <div class="now">
-        <h3>{{cardColumn.time}}</h3>
+        <h3>{{ cardColumn.time }}</h3>
         <img :src="icons(cardColumn.icon)" alt />
-        <h3>{{cardColumn.temperature}}*{{shownUnit}}</h3>
+        <h3>{{ cardColumn.temperature }}*{{ shownUnit }}</h3>
       </div>
     </div>
   </div>
@@ -19,11 +19,6 @@ export default {
       return `/icons/${iconSrc}.png`;
     }
   },
-  data() {
-    return {
-      test: [{ time: "Pateu" }, { time: "Carnati" }]
-    };
-  },
   computed: {
     ...mapGetters([
       "sunrise",
@@ -31,7 +26,6 @@ export default {
       "weatherIcon",
       "cityInfos",
       "savedBoolean",
-      "favCities",
       "shownUnit"
     ])
   }

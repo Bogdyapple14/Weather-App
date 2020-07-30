@@ -2,8 +2,19 @@
   <div class="fav">
     <div class="container">
       <div class="row">
-        <div v-for="(infos,index) in favCities" :key="index">
-          <card />
+        <div class="card" v-for="(favCity,index) in favCities" :key="index">
+          <div class="row title">
+            <p class="coords">({{ cityInfos.lat }}) / ({{ cityInfos.lon }})</p>
+            <h2 class="text-blue-600">{{ cityInfos.city_name }}</h2>
+          </div>
+          <div class="cardColumnsSection">
+            <cardColumn
+              class="cardColumn"
+              :cardColumn="cardColumn"
+              v-for="(cardColumn, index) in cardColumnInfos"
+              :key="index"
+            ></cardColumn>
+          </div>
         </div>
       </div>
     </div>
@@ -11,15 +22,14 @@
 </template>
 
 <script>
-import card from '../components/card'
+import { mapGetters } from "vuex";
+import cardColumn from "../components/cardColumn";
 export default {
   computed: {
-    favCities() {
-      return this.$store.getters.favCities;
-    },
+    ...mapGetters(["cityInfos", "savedBoolean", "cardColumnInfos", "favCities"])
   },
-  components:{
-    card
+  components: {
+    cardColumn
   }
 };
 </script>

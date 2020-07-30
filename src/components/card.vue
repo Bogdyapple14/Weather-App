@@ -2,15 +2,19 @@
   <div>
     <div class="card" v-show="savedBoolean">
       <div class="row title">
-        <p class="coords">({{cityInfos.lat}}) / ({{cityInfos.lon}})</p>
-        <h2>{{ cityInfos.city_name }}</h2>
-        <button @click="addToFav" class="addToFav">
+        <p class="coords">({{ cityInfos.lat }}) / ({{ cityInfos.lon }})</p>
+        <h2 class="text-blue-600">{{ cityInfos.city_name }}</h2>
+        <button class="addToFav hover:text-yellow-400" @click="addToFav">
           <i class="far fa-star"></i>
         </button>
       </div>
       <div class="cardColumnsSection">
-        <cardColumn class="cardColumn" :cardColumn="cardColumn" v-for="(cardColumn,index) in cardColumnInfos" :key="index">
-        </cardColumn>
+        <cardColumn
+          class="cardColumn"
+          :cardColumn="cardColumn"
+          v-for="(cardColumn, index) in cardColumnInfos"
+          :key="index"
+        ></cardColumn>
       </div>
     </div>
   </div>
@@ -21,19 +25,15 @@ import cardColumn from "./cardColumn";
 import { mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters([
-      "cityInfos",
-      "savedBoolean",
-      "cardColumnInfos"
-      ])
+    ...mapGetters(["cityInfos", "savedBoolean", "cardColumnInfos"])
   },
   components: {
     cardColumn
   },
   methods: {
-    addToFav() {
-      alert("Added To Favourites");
-      this.$store.dispatch("addToFav");
+    addToFav(payload) {
+      this.$store.dispatch(`addToFav`, payload);
+      alert("Added To Favourite");
     }
   }
 };

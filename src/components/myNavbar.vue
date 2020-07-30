@@ -1,14 +1,14 @@
 <template>
   <div class="navbar">
     <div class="logo">
-      <router-link tag="h2" :to="{name:'Home'}">Weather App</router-link>
+      <router-link tag="h2" :to="{ name: 'Home' }">Weather App</router-link>
     </div>
     <div class="nav">
       <ul>
-        <router-link :to="{name: 'Home' }" tag="li" exact>
+        <router-link :to="{ name: 'Home' }" tag="li" exact>
           <h3>Home</h3>
         </router-link>
-        <router-link :to="{name: 'Favourite' }" tag="li" exact>
+        <router-link :to="{ name: 'Favourite' }" tag="li" exact>
           <h3>Favourite</h3>
         </router-link>
       </ul>

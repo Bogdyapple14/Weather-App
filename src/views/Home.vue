@@ -1,22 +1,57 @@
 <template>
   <div
     class="homepage"
-    @keypress.enter="fetchApi('M'); fetchApi_3H('M');fetchApi_24H('M');fetchApi_120H('M')"
+    @keypress.enter="
+      fetchApi('M');
+      fetchApi_3H('M');
+      fetchApi_24H('M');
+      fetchApi_120H('M');
+    "
   >
     <div class="top">
       <input type="text" class="searchBar" v-model="cityName" />
-      <button @click="fetchApi('M'); fetchApi_3H('M');fetchApi_24H('M');fetchApi_120H('M')">Search</button>
+      <button
+        @click="
+          fetchApi('M');
+          fetchApi_3H('M');
+          fetchApi_24H('M');
+          fetchApi_120H('M');
+        "
+      >Search</button>
     </div>
-    <div class="buttons">
-      <button
-        @click="fetchApi('M'); fetchApi_3H('M');fetchApi_24H('M');fetchApi_120H('M');changeShownUnit(`C`)"
-      >Celcius</button>
-      <button
-        @click="fetchApi('S'); fetchApi_3H('S');fetchApi_24H('S');fetchApi_120H('S');changeShownUnit(`K`)"
-      >Kelvin</button>
-      <button
-        @click="fetchApi('I'); fetchApi_3H('I');fetchApi_24H('I');fetchApi_120H('I');changeShownUnit(`F`)"
-      >Farenheit</button>
+    <div class="top">
+      <div>
+        <button
+          @click="
+            fetchApi('M');
+            fetchApi_3H('M');
+            fetchApi_24H('M');
+            fetchApi_120H('M');
+            changeShownUnit(`C`);
+          "
+          class="px-2"
+        >Celcius</button>
+        <button
+          @click="
+            fetchApi('S');
+            fetchApi_3H('S');
+            fetchApi_24H('S');
+            fetchApi_120H('S');
+            changeShownUnit(`K`);
+          "
+          class="px-2"
+        >Kelvin</button>
+        <button
+          @click="
+            fetchApi('I');
+            fetchApi_3H('I');
+            fetchApi_24H('I');
+            fetchApi_120H('I');
+            changeShownUnit(`F`);
+          "
+          class="px-2"
+        >Farenheit</button>
+      </div>
     </div>
     <card></card>
     <div class="error" v-show="isError">
@@ -81,8 +116,7 @@ export default {
   align-items: center;
   margin-bottom: 20px;
 }
-.top button,
-.buttons button {
+.top button {
   margin: 0 10px;
   border: 2px solid blue;
   border-radius: 10px;

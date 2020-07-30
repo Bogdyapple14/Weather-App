@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Favourite from "../views/Favourite.vue"
+import Favourite from "../views/Favourite.vue";
 
 Vue.use(VueRouter);
 
