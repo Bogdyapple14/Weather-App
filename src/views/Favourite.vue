@@ -1,19 +1,21 @@
 <template>
   <div class="fav">
-    <div class="container">
-      <div class="row">
-        <div class="card" v-for="(favCity,index) in favCities" :key="index">
+    <div class="container" v-for="(favCity, index) in favCities" :key="index">
+      <div class="row" >
+        <div class="card">
           <div class="row title">
             <p class="coords">({{ cityInfos.lat }}) / ({{ cityInfos.lon }})</p>
-            <h2 class="text-blue-600">{{ cityInfos.city_name }}</h2>
+            <h2 class="text-blue-600">{{ cardColumnInfos.name }}</h2>
           </div>
-          <div class="cardColumnsSection">
-            <cardColumn
-              class="cardColumn"
-              :cardColumn="cardColumn"
-              v-for="(cardColumn, index) in cardColumnInfos"
-              :key="index"
-            ></cardColumn>
+
+          <div class="cardColumnsSection" >
+            <div class="col-3" v-for="(favCityInfo,index) in favCityInfos" :key="index">
+              <div class="now" >
+                <h3>{{ favCityInfo.time }}</h3>
+                <img :src="icons(favCityInfo.icon)" alt />
+                <h3>{{ favCityInfo.temperature }}*{{ shownUnit }}</h3>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -23,13 +25,28 @@
 
 <script>
 import { mapGetters } from "vuex";
-import cardColumn from "../components/cardColumn";
 export default {
   computed: {
-    ...mapGetters(["cityInfos", "savedBoolean", "cardColumnInfos", "favCities"])
+    ...mapGetters([
+      "cityInfos",
+      "savedBoolean",
+      "cardColumnInfos",
+      "favCities",
+      "sunrise",
+      "temperature",
+      "weatherIcon",
+      "cityInfos",
+      "savedBoolean",
+      "shownUnit",
+      "cardColumnInfos",
+      "favCities",
+      "favCityInfos"
+    ])
   },
-  components: {
-    cardColumn
+  methods: {
+    icons(iconSrc) {
+      return `/icons/${iconSrc}.png`;
+    }
   }
 };
 </script>

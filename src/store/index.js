@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import _ from "lodash";
 
 Vue.use(Vuex);
 
@@ -8,8 +9,8 @@ export default new Vuex.Store({
   state: {
     cityName: "",
     index: 0,
-    favCities: [
-    ],
+    favCities: [],
+    favCityInfos: [],
     unit: "M",
     shownUnit: "C",
     cityInfos: [],
@@ -20,10 +21,10 @@ export default new Vuex.Store({
     savedBoolean: false,
     newArray: [],
     cardColumnInfos: [
-      { time: "Now", temperature: "", icon: "" },
-      { time: "3H", temperature: "", icon: "" },
-      { time: "24H", temperature: "", icon: "" },
-      { time: "120H", temperature: "", icon: "" }
+      { time: "Now", temperature: "", icon: "", name: "" },
+      { time: "3H", temperature: "", icon: "", name: "" },
+      { time: "24H", temperature: "", icon: "", name: "" },
+      { time: "120H", temperature: "", icon: "", name: "" }
     ]
   },
   mutations: {
@@ -41,6 +42,9 @@ export default new Vuex.Store({
     },
     SET_CARDCOLUMNINFOS_SUNRISE(state, payload) {
       state.cardColumnInfos[state.index].sunrise = payload;
+    },
+    SET_CARDCOLUMNINFOS_NAME(state, payload) {
+      state.cardColumnInfos[state.index].name = payload;
     },
     SET_SAVEDBOOLEAN(state, payload) {
       state.savedBoolean = payload;
@@ -66,8 +70,12 @@ export default new Vuex.Store({
     SET_CITYNAME(state, payload) {
       state.cityName = payload;
     },
-    ADD_FAV(state) {
-      state.favCities.push(state.cardColumnInfos)
+    ADD_FAV(state, payload) {
+      state.favCities.push([..._.cloneDeep(_.cloneDeep(payload))]);
+      state.favCityInfos.push(...[..._.cloneDeep(_.cloneDeep(payload))])
+      console.log("favCities:", state.favCities)
+      console.log("cardColumnInfos:", state.cardColumnInfos)
+      console.log("favCityInfos: ", state.favCityInfos)
     }
   },
   getters: {
@@ -76,6 +84,9 @@ export default new Vuex.Store({
     },
     favCities: state => {
       return state.favCities;
+    },
+    favCityInfos: state => {
+      return state.favCityInfos;
     },
     shownUnit: state => {
       return state.shownUnit;
@@ -114,6 +125,7 @@ export default new Vuex.Store({
 
           commit("SET_CARDCOLUMNINFOS_TEMPERATURE", data[0].temp);
           commit("SET_CARDCOLUMNINFOS_ICON", data[0].weather.icon);
+          commit("SET_CARDCOLUMNINFOS_NAME", data[0].city_name);
         })
         .catch(() => {
           commit("SET_CITYINFOS", []);
@@ -187,9 +199,8 @@ export default new Vuex.Store({
     setShownUnit({ commit }, shownUnit) {
       commit("SET_SHOWNUNIT", shownUnit);
     },
-    addToFav({ commit, state }, cardColumnInfos) {
-      commit("ADD_FAV", cardColumnInfos);
-      console.log(state.favCities)
+    addToFav({ commit }, payload) {
+      commit("ADD_FAV", payload);
     }
   }
 });

@@ -17,7 +17,9 @@
           fetchApi_24H('M');
           fetchApi_120H('M');
         "
-      >Search</button>
+      >
+        Search
+      </button>
     </div>
     <div class="top">
       <div>
@@ -30,7 +32,9 @@
             changeShownUnit(`C`);
           "
           class="px-2"
-        >Celcius</button>
+        >
+          Celcius
+        </button>
         <button
           @click="
             fetchApi('S');
@@ -40,7 +44,9 @@
             changeShownUnit(`K`);
           "
           class="px-2"
-        >Kelvin</button>
+        >
+          Kelvin
+        </button>
         <button
           @click="
             fetchApi('I');
@@ -50,7 +56,9 @@
             changeShownUnit(`F`);
           "
           class="px-2"
-        >Farenheit</button>
+        >
+          Farenheit
+        </button>
       </div>
     </div>
     <card></card>

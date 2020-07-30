@@ -4,7 +4,7 @@
       <div class="row title">
         <p class="coords">({{ cityInfos.lat }}) / ({{ cityInfos.lon }})</p>
         <h2 class="text-blue-600">{{ cityInfos.city_name }}</h2>
-        <button class="addToFav hover:text-yellow-400" @click="addToFav">
+        <button class="addToFav hover:text-yellow-400" @click="addToFav(cardColumnInfos)">
           <i class="far fa-star"></i>
         </button>
       </div>
@@ -34,7 +34,8 @@ export default {
     addToFav(payload) {
       this.$store.dispatch(`addToFav`, payload);
       alert("Added To Favourite");
-    }
+    },
+
   }
 };
 </script>

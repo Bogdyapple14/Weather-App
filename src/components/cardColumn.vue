@@ -26,7 +26,9 @@ export default {
       "weatherIcon",
       "cityInfos",
       "savedBoolean",
-      "shownUnit"
+      "shownUnit",
+      "cardColumnInfos",
+      "favCities"
     ])
   }
 };
