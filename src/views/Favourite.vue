@@ -1,20 +1,18 @@
 <template>
   <div class="fav">
-    <div class="container" v-for="(favCity, index) in favCities" :key="index">
-      <div class="row" >
-        <div class="card">
-          <div class="row title">
-            <p class="coords">({{ cityInfos.lat }}) / ({{ cityInfos.lon }})</p>
-            <h2 class="text-blue-600">{{ cardColumnInfos.name }}</h2>
+    <div class="container">
+      <div class="row cards-container">
+        <div v-for="(favCityInfo, index) in favCityInfos" :key="index">
+          <div class="titlu">
+            <p class="coords">({{ favCityInfo.lat }}) / ({{ favCityInfo.lon }})</p>
+            <h2 class="text-blue-600">{{ favCityInfo.name }}</h2>
           </div>
 
-          <div class="cardColumnsSection" >
-            <div class="col-3" v-for="(favCityInfo,index) in favCityInfos" :key="index">
-              <div class="now" >
+            <div class="col-3">
+              <div class="now">
                 <h3>{{ favCityInfo.time }}</h3>
                 <img :src="icons(favCityInfo.icon)" alt />
                 <h3>{{ favCityInfo.temperature }}*{{ shownUnit }}</h3>
-              </div>
             </div>
           </div>
         </div>
@@ -31,16 +29,12 @@ export default {
       "cityInfos",
       "savedBoolean",
       "cardColumnInfos",
-      "favCities",
       "sunrise",
       "temperature",
       "weatherIcon",
-      "cityInfos",
-      "savedBoolean",
       "shownUnit",
-      "cardColumnInfos",
-      "favCities",
-      "favCityInfos"
+      "favCityInfos",
+      "favCities"
     ])
   },
   methods: {
@@ -58,69 +52,35 @@ export default {
   background-attachment: fixed;
   min-height: 100vh;
   width: 100vw;
-  align-items: center;
-  justify-content: center;
   padding: 100px 0;
 }
-.col-md-6 {
-  padding: 0;
+.coords{
+  font-size: 16px;
 }
-.container {
-  align-items: center;
+.titlu{
+  text-align: center;
+  margin-top: 20px;
 }
-.row {
+.cards-container {
+  background: white;
+  border-radius: 5px;
+  border: 2px solid black;
+  margin: 10px 0;
+  padding-bottom:30px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-evenly !important;
+  flex-wrap: wrap !important;
+}
+.col-3 {
+  border-top: 1px solid black;
+  text-align: center;
+  margin: 0 30px;
+  background: rgb(221, 221, 221);
 }
 .favourited {
   color: yellow;
 }
-.now,
-.d5,
-.d1,
-.h3h {
-  margin: 0 20px;
-}
-.title p {
-  font-size: 1.5rem;
-}
-.sections .col-3 {
-  min-width: 170px;
-  height: 100%;
-  border: 1px solid black;
-  text-align: center;
-  justify-content: space-between;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 15px;
-}
 h3 {
-  font-weight: 600;
-}
-.card {
-  font-weight: 600;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: linear-gradient(
-    rgba(255, 255, 255, 0.7),
-    rgba(255, 255, 255, 0.7)
-  );
-  border: 2px solid black;
-  padding: 0 15px;
-}
-.title {
-  padding: 10px 0;
-  margin: 0 !important;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-.title h2 {
   font-weight: 600;
 }
 .fa-star:hover {

@@ -21,10 +21,10 @@ export default new Vuex.Store({
     savedBoolean: false,
     newArray: [],
     cardColumnInfos: [
-      { time: "Now", temperature: "", icon: "", name: "" },
-      { time: "3H", temperature: "", icon: "", name: "" },
-      { time: "24H", temperature: "", icon: "", name: "" },
-      { time: "120H", temperature: "", icon: "", name: "" }
+      { time: "Now", temperature: "", icon: "", name: "", lat: "", lon: "" },
+      { time: "3H", temperature: "", icon: "", name: "", lat: "", lon: "" },
+      { time: "24H", temperature: "", icon: "", name: "", lat: "", lon: "" },
+      { time: "120H", temperature: "", icon: "", name: "", lat: "", lon: "" }
     ]
   },
   mutations: {
@@ -44,7 +44,16 @@ export default new Vuex.Store({
       state.cardColumnInfos[state.index].sunrise = payload;
     },
     SET_CARDCOLUMNINFOS_NAME(state, payload) {
-      state.cardColumnInfos[state.index].name = payload;
+      for (let i = 0; i < state.cardColumnInfos.length; i++)
+        state.cardColumnInfos[i].name = payload;
+    },
+    SET_CARDCOLUMNINFOS_LAT(state, payload) {
+      for (let i = 0; i < state.cardColumnInfos.length; i++)
+        state.cardColumnInfos[i].lat = payload;
+    },
+    SET_CARDCOLUMNINFOS_LON(state, payload) {
+      for (let i = 0; i < state.cardColumnInfos.length; i++)
+        state.cardColumnInfos[i].lon = payload;
     },
     SET_SAVEDBOOLEAN(state, payload) {
       state.savedBoolean = payload;
@@ -71,11 +80,11 @@ export default new Vuex.Store({
       state.cityName = payload;
     },
     ADD_FAV(state, payload) {
-      state.favCities.push([..._.cloneDeep(_.cloneDeep(payload))]);
-      state.favCityInfos.push(...[..._.cloneDeep(_.cloneDeep(payload))])
-      console.log("favCities:", state.favCities)
-      console.log("cardColumnInfos:", state.cardColumnInfos)
-      console.log("favCityInfos: ", state.favCityInfos)
+      state.favCities.push(_.cloneDeep(payload));
+      state.favCityInfos.push(...[..._.cloneDeep(payload)]);
+      console.log("favCities:", state.favCities);
+      console.log("cardColumnInfos:", state.cardColumnInfos);
+      console.log("favCityInfos: ", state.favCityInfos);
     }
   },
   getters: {
@@ -112,9 +121,9 @@ export default new Vuex.Store({
       await axios
         .get(
           "https://api.weatherbit.io/v2.0/current?city=" +
-          state.cityName +
-          ",NC&key=8ce5a5e907914482be4ae7d4ea0c069f&units=" +
-          unit
+            state.cityName +
+            ",NC&key=8ce5a5e907914482be4ae7d4ea0c069f&units=" +
+            unit
         )
         .then(response => {
           const data = response.data.data;
@@ -122,10 +131,11 @@ export default new Vuex.Store({
           commit("SET_CITYINFOS", data[0]);
           commit("SET_ERROR", false);
           commit("SET_SAVEDBOOLEAN", true);
-
           commit("SET_CARDCOLUMNINFOS_TEMPERATURE", data[0].temp);
           commit("SET_CARDCOLUMNINFOS_ICON", data[0].weather.icon);
           commit("SET_CARDCOLUMNINFOS_NAME", data[0].city_name);
+          commit("SET_CARDCOLUMNINFOS_LAT", data[0].lat);
+          commit("SET_CARDCOLUMNINFOS_LON", data[0].lon);
         })
         .catch(() => {
           commit("SET_CITYINFOS", []);
@@ -138,9 +148,9 @@ export default new Vuex.Store({
       await axios
         .get(
           "https://api.weatherbit.io/v2.0/forecast/hourly?city=" +
-          state.cityName +
-          ",NC&key=8ce5a5e907914482be4ae7d4ea0c069f&hours=3&units=" +
-          unit
+            state.cityName +
+            ",NC&key=8ce5a5e907914482be4ae7d4ea0c069f&hours=3&units=" +
+            unit
         )
         .then(response => {
           const data = response.data.data;
@@ -158,9 +168,9 @@ export default new Vuex.Store({
       await axios
         .get(
           "https://api.weatherbit.io/v2.0/forecast/hourly?city=" +
-          state.cityName +
-          ",NC&key=8ce5a5e907914482be4ae7d4ea0c069f&hours=24&units=" +
-          unit
+            state.cityName +
+            ",NC&key=8ce5a5e907914482be4ae7d4ea0c069f&hours=24&units=" +
+            unit
         )
         .then(response => {
           const data = response.data.data;
@@ -178,9 +188,9 @@ export default new Vuex.Store({
       await axios
         .get(
           "https://api.weatherbit.io/v2.0/forecast/hourly?city=" +
-          state.cityName +
-          ",NC&key=8ce5a5e907914482be4ae7d4ea0c069f&hours=120&units=" +
-          unit
+            state.cityName +
+            ",NC&key=8ce5a5e907914482be4ae7d4ea0c069f&hours=120&units=" +
+            unit
         )
         .then(response => {
           const data = response.data.data;
